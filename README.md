@@ -40,6 +40,12 @@ buildscript {
 }
 ```
 
+Apply plugin.
+
+```groovy
+apply plugin: 'co.riiid.gradle'
+```
+
 Then add `github` configuration and set properties.
 
 ### Supported Properties
