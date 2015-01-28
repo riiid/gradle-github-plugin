@@ -16,9 +16,9 @@ Currently, It's not supported in any repositores.
 So you should use `mavenLocal()`.
 
 ```sh
-git clone https://github.com/riiid/gradle-github-plugin
-cd gradle-github-plugin
-./gradlew install
+$ git clone https://github.com/riiid/gradle-github-plugin
+$ cd gradle-github-plugin
+$ ./gradlew install
 ```
 
 
@@ -78,6 +78,21 @@ github {
     ]
 }
 ```
+
+Finally you can see `githubRelease` task
+
+```sh
+$ ./gradlew tasks | grep githubRelease
+githubRelease
+```
+
+Run the task!!!
+
+```sh
+$ ./gradlew githubRelease
+```
+
+Good luck!!! :trollface::trollface::trollface:
 
 
 ## References
