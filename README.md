@@ -7,7 +7,7 @@ You can fully automate releases via *gradle-github-plugin*. :rocket:
 ## Supported features
 
 - Create a release
-- Upload your files!!!
+- Upload your files!!! :boom::boom::boom:
 
 
 ## Installation
