@@ -63,29 +63,31 @@ class ReleaseTask extends DefaultTask {
             def http = new HttpBuilder(host)
             def file = new File(asset as String)
 
-            def map = URLConnection.getFileNameMap()
-            def contentType = map.getContentTypeFor(asset as String)
+            if (file.exists()) {
+                def map = URLConnection.getFileNameMap()
+                def contentType = map.getContentTypeFor(asset as String)
 
-            http.ignoreSSLIssues()
-            http.request(Method.POST) { req ->
-                uri.path = path
-                uri.query = [
-                        name: name,
-                ]
-                send ContentType.BINARY, file.bytes
+                http.ignoreSSLIssues()
+                http.request(Method.POST) { req ->
+                    uri.path = path
+                    uri.query = [
+                            name: name,
+                    ]
+                    send ContentType.BINARY, file.bytes
 
-                headers.'User-Agent' = HEADER_USER_AGENT
-                headers.'Authorization' = "token ${project.github.token}"
-                headers.'Accept' = HEADER_ACCEPT
-                headers.'Content-Type' = contentType
+                    headers.'User-Agent' = HEADER_USER_AGENT
+                    headers.'Authorization' = "token ${project.github.token}"
+                    headers.'Accept' = HEADER_ACCEPT
+                    headers.'Content-Type' = contentType
 
 
-                response.success = { resp, json ->
-                    println json
-                }
+                    response.success = { resp, json ->
+                        println json
+                    }
 
-                response.failure = { resp, json ->
-                    System.err.println json
+                    response.failure = { resp, json ->
+                        System.err.println json
+                    }
                 }
             }
         }
