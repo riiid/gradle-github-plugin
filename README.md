@@ -1,37 +1,23 @@
-gradle-github-plugin
-====================
-
+# gradle-github-plugin
 [ ![Download](https://api.bintray.com/packages/riiidadmin/maven/gradle-github-plugin/images/download.svg) ](https://bintray.com/riiidadmin/maven/gradle-github-plugin/_latestVersion)
 
+:truck: Gradle plugin for Github releases.  
 You can fully automate releases via *gradle-github-plugin*. :rocket:
 
 
 ## Supported features
-
 - Create a release
 - Upload your files or directories!!! :boom::boom::boom:
 
 
-## Installation
-
-Currently, It's not supported in any repositores.
-So you should use `mavenLocal()`.
-
-```sh
-$ git clone https://github.com/riiid/gradle-github-plugin
-$ cd gradle-github-plugin
-$ ./gradlew install
-```
-
-
 ## Usage
-
-Edit your `build.gradle` file with the following:
+Edit your `build.gradle` file.  
+Add `jcenter()`, `classpath ...` to `repositories`, `dependencies` in `buidlscript` respectively.
 
 ```groovy
 buildscript {
     repositories {
-        mavenLocal()
+        jcenter()
     }
 
     dependencies {
@@ -42,7 +28,7 @@ buildscript {
 }
 ```
 
-Apply plugin.
+And add apply plugin.
 
 ```groovy
 apply plugin: 'co.riiid.gradle'
@@ -51,7 +37,6 @@ apply plugin: 'co.riiid.gradle'
 Then add `github` configuration and set properties.
 
 ### Supported Properties
-
 Name | Type | Description
 --- | --- | ---
 owner | String | *Required.* The id of your Github.
@@ -63,7 +48,6 @@ name | String | *Optional.* The name of the release.
 body | String | *Optional.* Text describing the contents of the tag.
 
 ### Example
-
 ```groovy
 github {
     owner = 'riiid'
@@ -82,8 +66,8 @@ github {
 }
 ```
 
-If an asset is directory, `gradle-github-plugin` will zip this directory, `outputs.zip` by name.  
-For example, `app/build/outputs` is compressed into `app/build/outputs.zip`. And the file will be removed after uploaded.
+If an asset is directory, `gradle-github-plugin` will zip the directory, `outputs.zip` by name.  
+For example, `app/build/outputs` is compressed into `app/build/outputs.zip`. The file will be removed after uploaded.
 
 Finally you can see `githubRelease` task
 
@@ -102,7 +86,6 @@ Good luck!!! :trollface::trollface::trollface:
 
 
 ## References
-
 - [Github Releases][github-releases]
 
 
