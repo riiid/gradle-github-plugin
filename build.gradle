@@ -1,11 +1,74 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 version = '0.2.0'
 group = 'co.riiid'
 
 repositories {
     mavenCentral()
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from 'build/docs/groovydoc'
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+def repo = 'https://github.com/riiid/gradle-github-plugin'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment ->
+                signing.signPom(deployment)
+            }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            pom.project {
+                name 'gradle-github-plugin'
+                packaging 'jar'
+                url repo
+
+                scm {
+                    connection "scm:git:${repo}.git"
+                    developerConnection "scm:git:${repo}.git"
+                    url repo
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'importre'
+                        name 'Jaewe Heo'
+                        email 'jaeweheo@gmail.com'
+                    }
+                }
+            }
+        }
+    }
 }
 
 dependencies {
