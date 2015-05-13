@@ -74,10 +74,14 @@ github {
     assets = [
             'app/build/outputs/apk/app-release.apk',
             'app/build/outputs/mapping/release/mapping.txt',
+            'app/build/outputs',
             ...
     ]
 }
 ```
+
+If an asset is directory, `gradle-github-plugin` will zip this directory, `outputs.zip` by name.  
+For example, `app/build/outputs` is compressed into `app/build/outputs.zip`. And the file will be removed after uploaded.
 
 Finally you can see `githubRelease` task
 
