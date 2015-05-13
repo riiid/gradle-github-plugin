@@ -37,9 +37,12 @@ uploadArchives {
                 signing.signPom(deployment)
             }
 
+            repository(url: uri('./repo'))
+            /*
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 authentication(userName: sonatypeUsername, password: sonatypePassword)
             }
+            */
 
             pom.project {
                 name 'gradle-github-plugin'
