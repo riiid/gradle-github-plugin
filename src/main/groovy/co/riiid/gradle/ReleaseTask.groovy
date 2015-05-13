@@ -4,6 +4,7 @@ import groovyx.net.http.ContentType
 import groovyx.net.http.Method
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
+import org.zeroturnaround.zip.ZipUtil
 
 class ReleaseTask extends DefaultTask {
 
@@ -52,20 +53,28 @@ class ReleaseTask extends DefaultTask {
 
     public postAssets(uploadUrl, assets) {
         assets.each { asset ->
+            def file = new File(asset as String)
             def name = asset.split('/')[-1]
-            def upload = uploadUrl.replace('{?name}', "?name=${name}")
+            if (file.exists() && file.directory) {
+                name += ".zip"
+            }
 
+            def upload = uploadUrl.replace('{?name}', "?name=${name}")
             def url = new URL(upload as String)
             def host = url.host + (url.port > 0 ? ":" + url.port + "" : "")
             host = "${url.protocol}://${host}"
             def path = url.path
-
             def http = new HttpBuilder(host)
-            def file = new File(asset as String)
 
             if (file.exists()) {
+                if (file.directory) {
+                    def zipFile = new File(file.parentFile, file.name + ".zip")
+                    ZipUtil.pack(file, zipFile)
+                    file = zipFile
+                }
+
                 def map = URLConnection.getFileNameMap()
-                def contentType = map.getContentTypeFor(asset as String)
+                def contentType = map.getContentTypeFor(file.absolutePath)
 
                 http.ignoreSSLIssues()
                 http.request(Method.POST) { req ->
@@ -83,10 +92,14 @@ class ReleaseTask extends DefaultTask {
 
                     response.success = { resp, json ->
                         println json
+                        if (file.exists() && file.name.endsWith(".zip"))
+                            file.delete()
                     }
 
                     response.failure = { resp, json ->
                         System.err.println json
+                        if (file.exists() && file.name.endsWith(".zip"))
+                            file.delete()
                     }
                 }
             }
