@@ -7,7 +7,7 @@ You can fully automate releases via *gradle-github-plugin*. :rocket:
 
 ## Supported features
 - Create a release
-- Upload your files or directories!!! :boom::boom::boom:
+- Upload your files and/or directories!!! :boom::boom::boom:
 
 
 ## Usage
@@ -56,7 +56,9 @@ github {
     tagName = '0.1.0'
     targetCommitish = 'master'
     name = 'v0.1.0'
-    body = 'first release'
+    body = """# Project Name
+Write `release note` here.
+"""
     assets = [
             'app/build/outputs/apk/app-release.apk',
             'app/build/outputs/mapping/release/mapping.txt',
