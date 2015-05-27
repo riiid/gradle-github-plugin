@@ -1,5 +1,6 @@
 # gradle-github-plugin
 [ ![Download](https://api.bintray.com/packages/riiidadmin/maven/gradle-github-plugin/images/download.svg) ](https://bintray.com/riiidadmin/maven/gradle-github-plugin/_latestVersion)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-gradle--github--plugin-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/1890)
 
 :truck: Gradle plugin for Github releases.  
 You can fully automate releases via *gradle-github-plugin*. :rocket:
