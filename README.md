@@ -69,7 +69,7 @@ Write `release note` here.
 }
 ```
 
-If an asset is directory, `gradle-github-plugin` will zip the directory, `outputs.zip` by name.  
+If an asset is directory, `gradle-github-plugin` will zip the directory, `<dir-name>.zip` by name.  
 For example, `app/build/outputs` is compressed into `app/build/outputs.zip`. The file will be removed after uploaded.
 
 Finally you can see `githubRelease` task
