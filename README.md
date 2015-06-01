@@ -42,7 +42,7 @@ Name | Type | Description
 --- | --- | ---
 owner | String | *Required.* The id of your Github.
 repo | String | *Required.* The name of your Github's repository.
-token | String | *Required.* Github access token. Generate yours in [Settings/Applications][settings_apps]
+token | String | *Required.* Github access token. Generate yours in [Settings/Tokens][settings_tokens]
 tagName | String | *Required.* The name of the tag.
 targetCommitish | String | *Default is master.* Specifies the commitish value that determines where the Git tag is created from. Can be any branch or commit SHA. Unused if the Git tag already exists. Default: the repository’s default branch (usually master).
 name | String | *Optional.* The name of the release.
@@ -103,4 +103,4 @@ Good luck!!! :trollface::trollface::trollface:
 
 
 [github-releases]: https://developer.github.com/v3/repos/releases/
-[settings_apps]: https://github.com/settings/applications
+[settings_tokens]: https://github.com/settings/tokens
