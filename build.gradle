@@ -2,7 +2,7 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-version = '0.2.0'
+version = '0.3.0'
 group = 'co.riiid'
 
 repositories {
@@ -38,11 +38,6 @@ uploadArchives {
             }
 
             repository(url: uri('./repo'))
-            /*
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: sonatypeUsername, password: sonatypePassword)
-            }
-            */
 
             pom.project {
                 name 'gradle-github-plugin'
