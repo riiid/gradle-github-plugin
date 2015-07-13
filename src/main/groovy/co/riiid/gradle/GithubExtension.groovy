@@ -11,6 +11,9 @@ class GithubExtension {
     String name
     String body
 
+    boolean prerelease = false
+    boolean draft = false
+
     String[] assets
 
     String getOwner() {
@@ -39,6 +42,14 @@ class GithubExtension {
 
     String getBody() {
         return body
+    }
+
+    boolean isPrerelease() {
+        return prerelease
+    }
+
+    boolean isDraft() {
+        return draft
     }
 
     String[] getAssets() {
@@ -87,5 +98,13 @@ class GithubExtension {
 
     void setAssets(String[] assets) {
         this.assets = assets
+    }
+
+    void setPrerelease(boolean prerelease) {
+        this.prerelease = prerelease
+    }
+
+    void setDraft(boolean draft) {
+        this.draft = draft
     }
 }

@@ -47,6 +47,8 @@ tagName | String | *Required.* The name of the tag.
 targetCommitish | String | *Default is master.* Specifies the commitish value that determines where the Git tag is created from. Can be any branch or commit SHA. Unused if the Git tag already exists. Default: the repository’s default branch (usually master).
 name | String | *Optional.* The name of the release.
 body | String | *Optional.* Text describing the contents of the tag.
+prerelease | boolean | *Optional.* `true` to create a draft (unpublished) release, `false` to create a published one. Default: `false`
+draft | boolean | *Optional.* `true` to identify the release as a prerelease. `false` to identify the release as a full release. Default: `false`
 
 ### Example
 ```groovy

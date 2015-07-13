@@ -12,7 +12,7 @@ class ReleaseTask extends DefaultTask {
 
     // header
     final String HEADER_ACCEPT = 'application/vnd.github.v3+json'
-    final String HEADER_USER_AGENT = 'Mozilla/5.0'
+    final String HEADER_USER_AGENT = 'gradle-github-plugin'
 
     @TaskAction
     public release() {
@@ -26,7 +26,9 @@ class ReleaseTask extends DefaultTask {
                 tag_name        : project.github.getTagName(),
                 target_commitish: project.github.getTargetCommitish(),
                 name            : project.github.getName(),
-                body            : project.github.getBody()
+                body            : project.github.getBody(),
+                prerelease      : project.github.isPrerelease(),
+                draft           : project.github.isDraft()
         ]
 
         http.request(Method.POST) {
