@@ -61,7 +61,10 @@ class ReleaseTask extends DefaultTask {
                 name += ".zip"
             }
 
-            def upload = uploadUrl.replace('{?name}', "?name=${name}")
+            def upload = uploadUrl.replace(
+                    '{?name,label}', "?name=${name}&label=${name}")
+            println "upload url: ${upload}"
+
             def url = new URL(upload as String)
             def host = url.host + (url.port > 0 ? ":" + url.port + "" : "")
             host = "${url.protocol}://${host}"
