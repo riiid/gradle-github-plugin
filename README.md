@@ -12,6 +12,9 @@ You can fully automate releases via *gradle-github-plugin*. :rocket:
 
 
 ## Usage
+There are two ways.
+
+### 1. jcenter
 Edit your `build.gradle` file.  
 Add `jcenter()`, `classpath ...` to `repositories`, `dependencies` in `buidlscript` respectively.
 
@@ -35,7 +38,17 @@ And add apply plugin.
 apply plugin: 'co.riiid.gradle'
 ```
 
-Then add `github` configuration and set properties.
+### 2. plugins.gradle.org (easy)
+[Plugin mechanism][plugins] introduced in Gradle 2.1+
+
+```groovy
+plugins {
+  id "co.riiid.gradle" version "0.3.1"
+}
+```
+
+Add `github` configuration and set properties if you've done with 1 or 2.
+
 
 ### Supported Properties
 Name | Type | Description
@@ -106,3 +119,5 @@ Good luck!!! :trollface::trollface::trollface:
 
 [github-releases]: https://developer.github.com/v3/repos/releases/
 [settings_tokens]: https://github.com/settings/tokens
+[plugins]: https://docs.gradle.org/2.4/userguide/plugins.html#sec:plugins_block
+[ref]: https://plugins.gradle.org/plugin/co.riiid.gradle
