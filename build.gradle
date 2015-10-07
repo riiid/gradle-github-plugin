@@ -1,12 +1,40 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'signing'
+apply plugin: "com.gradle.plugin-publish"
 
 version = '0.3.1'
 group = 'co.riiid'
 
+def repo = 'https://github.com/riiid/gradle-github-plugin'
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.gradle.publish:plugin-publish-plugin:0.9.1"
+    }
+}
+
+pluginBundle {
+    website = repo
+    vcsUrl = repo
+    description = 'Gradle plugin for Github releases'
+    tags = ['github', 'gradle', 'release', 'releases']
+
+    plugins {
+        greetingsPlugin {
+            id = 'co.riiid.gradle'
+            displayName = 'Gradle plugin for Github releases'
+        }
+    }
+}
+
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 task javadocJar(type: Jar) {
@@ -27,8 +55,6 @@ artifacts {
 signing {
     sign configurations.archives
 }
-
-def repo = 'https://github.com/riiid/gradle-github-plugin'
 
 uploadArchives {
     repositories {
