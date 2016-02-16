@@ -8,15 +8,15 @@ import org.zeroturnaround.zip.ZipUtil
 
 class ReleaseTask extends DefaultTask {
 
-    final String BASE_URL = 'https://api.github.com'
-
     // header
-    final String HEADER_ACCEPT = 'application/vnd.github.v3+json'
     final String HEADER_USER_AGENT = 'gradle-github-plugin'
 
     @TaskAction
     public release() {
-        def http = new HttpBuilder(BASE_URL)
+        def baseUrl = project.github.getBaseUrl()
+        def accept = project.github.getAcceptHeader()
+        
+        def http = new HttpBuilder(baseUrl)
 
         def path = "/repos/" +
                 "${project.github.owner}/" +
@@ -38,12 +38,12 @@ class ReleaseTask extends DefaultTask {
 
             headers.'User-Agent' = HEADER_USER_AGENT
             headers.'Authorization' = "token ${project.github.token}"
-            headers.'Accept' = HEADER_ACCEPT
+            headers.'Accept' = accept
 
             response.success = { resp, json ->
                 println json
                 if (project.github.assets != null) {
-                    postAssets(json.upload_url, project.github.assets)
+                    postAssets(json.upload_url, project.github.assets, accept)
                 }
             }
 
@@ -53,7 +53,7 @@ class ReleaseTask extends DefaultTask {
         }
     }
 
-    public postAssets(uploadUrl, assets) {
+    public postAssets(uploadUrl, assets, accept) {
         assets.each { asset ->
             def file = new File(asset as String)
             def name = asset.split('/')[-1]
@@ -91,7 +91,7 @@ class ReleaseTask extends DefaultTask {
 
                     headers.'User-Agent' = HEADER_USER_AGENT
                     headers.'Authorization' = "token ${project.github.token}"
-                    headers.'Accept' = HEADER_ACCEPT
+                    headers.'Accept' = accept
                     headers.'Content-Type' = contentType
 
 

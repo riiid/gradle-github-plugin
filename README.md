@@ -26,7 +26,7 @@ buildscript {
 
     dependencies {
         ...
-        classpath 'co.riiid:gradle-github-plugin:0.3.1'
+        classpath 'co.riiid:gradle-github-plugin:0.4.0'
         ...
     }
 }
@@ -43,7 +43,7 @@ apply plugin: 'co.riiid.gradle'
 
 ```groovy
 plugins {
-  id "co.riiid.gradle" version "0.3.1"
+  id "co.riiid.gradle" version "0.4.0"
 }
 ```
 
@@ -53,6 +53,7 @@ Add `github` configuration and set properties if you've done with 1 or 2.
 ### Supported Properties
 Name | Type | Description
 --- | --- | ---
+baseUrl | String | *Optional.* The URL of Github. You can change this url as yours if you use Github Enterprise. (Default: https://api.github.com)
 owner | String | *Required.* The id of your Github.
 repo | String | *Required.* The name of your Github's repository.
 token | String | *Required.* Github access token. Generate yours in [Settings/Tokens][settings_tokens]

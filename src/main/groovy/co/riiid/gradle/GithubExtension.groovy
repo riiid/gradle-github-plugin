@@ -2,6 +2,9 @@ package co.riiid.gradle
 
 class GithubExtension {
 
+    String baseUrl = "https://api.github.com"
+    String acceptHeader = 'application/vnd.github.v3+json'
+    
     String owner
     String repo
     String token
@@ -15,6 +18,14 @@ class GithubExtension {
     boolean draft = false
 
     String[] assets
+
+    String getBaseUrl() {
+        return baseUrl
+    }
+
+    String getAcceptHeader() {
+        return acceptHeader
+    }
 
     String getOwner() {
         return owner
@@ -54,6 +65,14 @@ class GithubExtension {
 
     String[] getAssets() {
         return assets
+    }
+
+    void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl
+    }
+
+    void setAcceptHeader(String acceptHeader) {
+        this.acceptHeader = acceptHeader
     }
 
     void setOwner(String owner) {

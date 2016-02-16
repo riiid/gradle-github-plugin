@@ -1,3 +1,14 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.gradle.publish:plugin-publish-plugin:0.9.3"
+    }
+}
+
 plugins {
     id "com.jfrog.bintray" version "1.6"
 }
@@ -6,11 +17,26 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
+apply plugin: "com.gradle.plugin-publish"
 
 def GradleGithubPluginGroupId = 'co.riiid'
-def GradleGithubPluginVersion = '0.3.2'
+def GradleGithubPluginVersion = '0.4.0'
 def GradleGithubPluginArtifact = 'gradle-github-plugin'
 def GradleGithubPluginUrl = 'https://github.com/riiid/gradle-github-plugin'
+
+pluginBundle {
+    website = GradleGithubPluginUrl
+    vcsUrl = GradleGithubPluginUrl
+    description = 'Gradle plugin for Github releases'
+    tags = ['github', 'gradle', 'release', 'releases']
+
+    plugins {
+        greetingsPlugin {
+            id = 'co.riiid.gradle'
+            displayName = 'Gradle plugin for Github releases'
+        }
+    }
+}
 
 task javadocJar(type: Jar) {
     classifier = 'javadoc'
