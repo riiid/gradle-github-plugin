@@ -1,41 +1,16 @@
+plugins {
+    id "com.jfrog.bintray" version "1.6"
+}
+
 apply plugin: 'groovy'
 apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'signing'
-apply plugin: "com.gradle.plugin-publish"
 
-version = '0.3.1'
-group = 'co.riiid'
-
-def repo = 'https://github.com/riiid/gradle-github-plugin'
-
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "com.gradle.publish:plugin-publish-plugin:0.9.1"
-    }
-}
-
-pluginBundle {
-    website = repo
-    vcsUrl = repo
-    description = 'Gradle plugin for Github releases'
-    tags = ['github', 'gradle', 'release', 'releases']
-
-    plugins {
-        greetingsPlugin {
-            id = 'co.riiid.gradle'
-            displayName = 'Gradle plugin for Github releases'
-        }
-    }
-}
-
-repositories {
-    jcenter()
-}
+def GradleGithubPluginGroupId = 'co.riiid'
+def GradleGithubPluginVersion = '0.3.2'
+def GradleGithubPluginArtifact = 'gradle-github-plugin'
+def GradleGithubPluginUrl = 'https://github.com/riiid/gradle-github-plugin'
 
 task javadocJar(type: Jar) {
     classifier = 'javadoc'
@@ -52,47 +27,50 @@ artifacts {
     archives sourcesJar
 }
 
-signing {
-    sign configurations.archives
+publishing {
+    publications {
+        GradleGithubPluginPublish(MavenPublication) {
+            from components.java
+            groupId GradleGithubPluginGroupId
+            artifactId GradleGithubPluginArtifact
+            version GradleGithubPluginVersion
+
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment ->
-                signing.signPom(deployment)
-            }
+bintray {
+    user = project.hasProperty("user") ? project.user : ""
+    key = project.hasProperty("key") ? project.key : ""
+    publications = ['GradleGithubPluginPublish']
+    publish = true
+    dryRun = true
 
-            repository(url: uri('./repo'))
+    pkg {
+        repo = 'maven'
+        name = GradleGithubPluginArtifact
+        licenses = ['Apache-2.0']
+        vcsUrl = "${GradleGithubPluginUrl}.git"
+        publicDownloadNumbers = true
 
-            pom.project {
-                name 'gradle-github-plugin'
-                packaging 'jar'
-                url repo
-
-                scm {
-                    connection "scm:git:${repo}.git"
-                    developerConnection "scm:git:${repo}.git"
-                    url repo
-                }
-
-                licenses {
-                    license {
-                        name 'The Apache License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id 'importre'
-                        name 'Jaewe Heo'
-                        email 'jaeweheo@gmail.com'
-                    }
-                }
+        version {
+            name = GradleGithubPluginVersion
+            vcsTag = GradleGithubPluginVersion
+            gpg {
+                sign = true
+                passphrase = project.hasProperty("passphrase") ? project.passphrase : ""
             }
         }
     }
+}
+
+group GradleGithubPluginGroupId
+version GradleGithubPluginVersion
+
+repositories {
+    jcenter()
 }
 
 dependencies {
