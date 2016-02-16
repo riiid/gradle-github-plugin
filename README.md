@@ -26,7 +26,7 @@ buildscript {
 
     dependencies {
         ...
-        classpath 'co.riiid:gradle-github-plugin:0.3.0'
+        classpath 'co.riiid:gradle-github-plugin:0.3.1'
         ...
     }
 }
