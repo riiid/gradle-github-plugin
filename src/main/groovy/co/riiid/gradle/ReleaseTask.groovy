@@ -61,7 +61,7 @@ class ReleaseTask extends DefaultTask {
                 logger.debug 'Response headers: \n' + resp.headers.collect { "< $it" }.join('\n')
                 def errorMessage = json?json.message:resp.statusLine
                 def ref = json?"See $json.documentation_url":''
-                def errorDetails = json? "Details: " + json.errors.collect { it }.join('\n'):''
+                def errorDetails = json && json.errors? "Details: " + json.errors.collect { it }.join('\n'):''
                 throw new GradleScriptException("$errorMessage. $ref. $errorDetails", null)
             }
         }
