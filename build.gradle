@@ -20,7 +20,7 @@ apply plugin: 'signing'
 apply plugin: "com.gradle.plugin-publish"
 
 def GradleGithubPluginGroupId = 'co.riiid'
-def GradleGithubPluginVersion = '0.4.0'
+def GradleGithubPluginVersion = '0.4.1'
 def GradleGithubPluginArtifact = 'gradle-github-plugin'
 def GradleGithubPluginUrl = 'https://github.com/riiid/gradle-github-plugin'
 
@@ -72,7 +72,7 @@ bintray {
     key = project.hasProperty("key") ? project.key : ""
     publications = ['GradleGithubPluginPublish']
     publish = true
-    dryRun = true
+    dryRun = project.hasProperty("dryRun") ? project.dryRun : true
 
     pkg {
         repo = 'maven'
