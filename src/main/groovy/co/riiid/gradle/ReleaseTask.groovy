@@ -110,7 +110,7 @@ class ReleaseTask extends DefaultTask {
 
 
                     response.success = { resp, json ->
-                        println json
+                        logger.debug "$json"
                         if (file.exists() && file.name.endsWith(".zip"))
                             file.delete()
                     }
