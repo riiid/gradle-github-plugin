@@ -4,6 +4,7 @@ import groovyx.net.http.ContentType
 import groovyx.net.http.Method
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.GradleScriptException
 import org.zeroturnaround.zip.ZipUtil
 
 class ReleaseTask extends DefaultTask {
@@ -58,6 +59,10 @@ class ReleaseTask extends DefaultTask {
             response.failure = { resp, json ->
                 logger.error "Error in $postLogMessage"
                 logger.debug 'Response headers: \n' + resp.headers.collect { "< $it" }.join('\n')
+                def errorMessage = json?json.message:resp.statusLine
+                def ref = json?"See $json.documentation_url":''
+                def errorDetails = json? "Details: " + json.errors.collect { it }.join('\n'):''
+                throw new GradleScriptException("$errorMessage. $ref. $errorDetails", null)
             }
         }
     }
