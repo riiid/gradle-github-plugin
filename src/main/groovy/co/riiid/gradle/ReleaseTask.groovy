@@ -32,7 +32,7 @@ class ReleaseTask extends DefaultTask {
         ]
 
         http.request(Method.POST) {
-            uri.path = path
+            uri.path += path
             requestContentType = ContentType.JSON
             body = postBody
 
