@@ -26,7 +26,7 @@ buildscript {
 
     dependencies {
         ...
-        classpath 'co.riiid:gradle-github-plugin:0.4.0'
+        classpath 'co.riiid:gradle-github-plugin:X.Y.Z'
         ...
     }
 }
@@ -43,7 +43,7 @@ apply plugin: 'co.riiid.gradle'
 
 ```groovy
 plugins {
-  id "co.riiid.gradle" version "0.4.0"
+  id "co.riiid.gradle" version "X.Y.Z"
 }
 ```
 
