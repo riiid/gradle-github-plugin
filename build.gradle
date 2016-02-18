@@ -20,7 +20,7 @@ apply plugin: 'signing'
 apply plugin: "com.gradle.plugin-publish"
 
 def GradleGithubPluginGroupId = 'co.riiid'
-def GradleGithubPluginVersion = '0.4.1'
+def GradleGithubPluginVersion = '0.4.2'
 def GradleGithubPluginArtifact = 'gradle-github-plugin'
 def GradleGithubPluginUrl = 'https://github.com/riiid/gradle-github-plugin'
 
