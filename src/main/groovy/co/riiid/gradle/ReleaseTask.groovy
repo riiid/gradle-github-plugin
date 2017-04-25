@@ -6,6 +6,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.GradleScriptException
 import org.zeroturnaround.zip.ZipUtil
+import org.apache.http.impl.client.LaxRedirectStrategy
 
 class ReleaseTask extends DefaultTask {
 
@@ -18,6 +19,7 @@ class ReleaseTask extends DefaultTask {
         def accept = project.github.getAcceptHeader()
         
         def http = new HttpBuilder(baseUrl)
+        http.client.setRedirectStrategy(new LaxRedirectStrategy())
 
         def path = "/repos/" +
                 "${project.github.owner}/" +
