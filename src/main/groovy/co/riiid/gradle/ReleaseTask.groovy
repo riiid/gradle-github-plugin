@@ -19,7 +19,12 @@ class ReleaseTask extends DefaultTask {
         
         def http = new HttpBuilder(baseUrl)
 
-        def path = "/repos/" +
+        def getReleasePath = "/repos/" +
+                "${project.github.owner}/" +
+                "${project.github.repo}/releases/tags/" +
+                "${project.github.getTagName()}"
+
+        def createReleasePath = "/repos/" +
                 "${project.github.owner}/" +
                 "${project.github.repo}/releases"
 
@@ -32,6 +37,38 @@ class ReleaseTask extends DefaultTask {
                 draft           : project.github.isDraft()
         ]
 
+        http.request(Method.GET) {
+            uri.path += getReleasePath
+            requestContentType = ContentType.JSON
+
+            headers.'User-Agent' = HEADER_USER_AGENT
+            headers.'Authorization' = "token ${project.github.token}"
+            headers.'Accept' = accept
+
+            def getLogMessage = "GET ${uri.path}\n" +
+                    " > User-Agent: ${headers['User-Agent']}\n" +
+                    " > Authorization: (not shown)\n" +
+                    " > Accept: ${headers.Accept}\n"
+            logger.debug "$getLogMessage"
+
+            response.success = { resp, json ->
+                logger.debug "< $resp.statusLine"
+                logger.debug 'Response headers: \n' + resp.headers.collect { "< $it" }.join('\n')
+                logger.error "Error in $getLogMessage"
+                def errorMessage = json ? json.message : resp.statusLine
+                def ref = json ? "See $json.documentation_url" : ''
+                def errorDetails = json && json.errors ? "Details: " + json.errors.collect { it }.join('\n') : ''
+                throw new GradleScriptException("$errorMessage. $ref. $errorDetails", null)
+            }
+
+            response.failure = { resp, json ->
+                logger.debug 'Response headers: \n' + resp.headers.collect { "< $it" }.join('\n')
+                createRelease(http, createReleasePath, postBody, accept)
+            }
+        }
+    }
+
+    public createRelease(HttpBuilder http, path, postBody, accept) {
         http.request(Method.POST) {
             uri.path += path
             requestContentType = ContentType.JSON
@@ -42,10 +79,10 @@ class ReleaseTask extends DefaultTask {
             headers.'Accept' = accept
 
             def postLogMessage = "POST ${uri.path}\n" +
-                " > User-Agent: ${headers['User-Agent']}\n" +
-                " > Authorization: (not shown)\n" +
-                " > Accept: ${headers.Accept}\n" +
-                " > body: $body\n"
+                    " > User-Agent: ${headers['User-Agent']}\n" +
+                    " > Authorization: (not shown)\n" +
+                    " > Accept: ${headers.Accept}\n" +
+                    " > body: $body\n"
             logger.debug "$postLogMessage"
 
             response.success = { resp, json ->
@@ -59,9 +96,9 @@ class ReleaseTask extends DefaultTask {
             response.failure = { resp, json ->
                 logger.error "Error in $postLogMessage"
                 logger.debug 'Response headers: \n' + resp.headers.collect { "< $it" }.join('\n')
-                def errorMessage = json?json.message:resp.statusLine
-                def ref = json?"See $json.documentation_url":''
-                def errorDetails = json && json.errors? "Details: " + json.errors.collect { it }.join('\n'):''
+                def errorMessage = json ? json.message : resp.statusLine
+                def ref = json ? "See $json.documentation_url" : ''
+                def errorDetails = json && json.errors ? "Details: " + json.errors.collect { it }.join('\n') : ''
                 throw new GradleScriptException("$errorMessage. $ref. $errorDetails", null)
             }
         }
