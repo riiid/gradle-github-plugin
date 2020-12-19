@@ -70,7 +70,7 @@ class ReleaseTask extends DefaultTask {
     public postAssets(uploadUrl, assets, accept) {
         assets.each { asset ->
             def file = new File(asset as String)
-            def name = asset.split('/')[-1]
+            def name = file.name
             if (file.exists() && file.directory) {
                 name += ".zip"
             }
