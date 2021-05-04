@@ -6,10 +6,12 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.GradleScriptException
 import org.zeroturnaround.zip.ZipUtil
+import org.gradle.api.tasks.Internal
 
 class ReleaseTask extends DefaultTask {
 
     // header
+    @Internal
     final String HEADER_USER_AGENT = 'gradle-github-plugin'
 
     @TaskAction
