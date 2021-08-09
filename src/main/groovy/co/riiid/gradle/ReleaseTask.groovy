@@ -5,11 +5,13 @@ import groovyx.net.http.Method
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.GradleScriptException
+import org.gradle.api.tasks.Input
 import org.zeroturnaround.zip.ZipUtil
 
 class ReleaseTask extends DefaultTask {
 
     // header
+    @Input
     final String HEADER_USER_AGENT = 'gradle-github-plugin'
 
     @TaskAction
